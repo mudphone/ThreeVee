@@ -13,12 +13,12 @@ REPL - run `(require 'threevee.core)`.
 
 ## Notes
 
-* [find the jar files](http://opencv-java-tutorials.readthedocs.io/en/latest/01-installing-opencv-for-java.html)
-* [3.3.0 demo code](http://www.rmnd.net/install-and-use-opencv-3-0-on-mac-os-x-with-eclipse-java/)
+* [find the OpenCV 3.3 jar files with Homebrew](http://opencv-java-tutorials.readthedocs.io/en/latest/01-installing-opencv-for-java.html)
+* [3.3 face detection demo code](http://www.rmnd.net/install-and-use-opencv-3-0-on-mac-os-x-with-eclipse-java/)
 * [original 2.4 face detection demo](https://blog.openshift.com/day-12-opencv-face-detection-for-java-developers/)
 * [building OpenCV jars (if you don't get them from Homebrew)](https://docs.opencv.org/3.0-beta/doc/tutorials/introduction/desktop_java/java_dev_intro.html)
-* [official 2.4 OpenCV demo](https://docs.opencv.org/2.4/doc/tutorials/introduction/clojure_dev_intro/clojure_dev_intro.html)
-* [3.3.0 tutorial](https://docs.opencv.org/trunk/d7/d1e/tutorial_clojure_dev_intro.html)
+* [official Clojure OpenCV 2.4 tutorial](https://docs.opencv.org/2.4/doc/tutorials/introduction/clojure_dev_intro/clojure_dev_intro.html)
+* [official Clojure OpenCV 3.3 tutorial](https://docs.opencv.org/trunk/d7/d1e/tutorial_clojure_dev_intro.html)
 
 ### OpenCV Required
 
