@@ -1,7 +1,7 @@
 # ThreeVee
 OpenCV 3 with Clojure &amp; Quil
 
-A Quil sketch designed to ... well, that part is up to you.
+A Quil sketch designed to detect faces with OpenCV 3.3 and LISP!
 
 ## Usage
 
