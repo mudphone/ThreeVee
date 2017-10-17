@@ -13,6 +13,6 @@ REPL - run `(require 'threevee.core)`.
 
 ## License
 
-Copyright © 2016 Pas de Chocolat
+Copyright © 2016 Pas de Chocolat, LLC
 
 Distributed under the MIT License
