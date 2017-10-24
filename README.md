@@ -19,6 +19,10 @@ REPL - run `(require 'threevee.core)`.
 * [building OpenCV jars (if you don't get them from Homebrew)](https://docs.opencv.org/3.0-beta/doc/tutorials/introduction/desktop_java/java_dev_intro.html)
 * [official Clojure OpenCV 2.4 tutorial](https://docs.opencv.org/2.4/doc/tutorials/introduction/clojure_dev_intro/clojure_dev_intro.html)
 * [official Clojure OpenCV 3.3 tutorial](https://docs.opencv.org/trunk/d7/d1e/tutorial_clojure_dev_intro.html)
+* [OpenCV + Java face detection & tracking](http://opencv-java-tutorials.readthedocs.io/en/latest/06-face-detection-and-tracking.html)
+* [official OpenCV 2.4 Java development tutorial](https://docs.opencv.org/2.4/doc/tutorials/introduction/desktop_java/java_dev_intro.html)
+* [my old work with Clojure and OpenCV 2.4](https://github.com/PasDeChocolat/QuilCV)
+* [wekinator face tracking, with OpenCV 2.4](http://www.wekinator.org/walkthrough/)
 
 ### OpenCV Required
 
