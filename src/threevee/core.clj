@@ -3,7 +3,7 @@
             [quil.middleware :as m]))
 
 (defn detect-face []
-  (let [face-detector (org.opencv.objdetect.CascadeClassifier. "haarcascade_frontalface_alt.xml")
+  (let [face-detector (org.opencv.objdetect.CascadeClassifier. "CASCADE_CLASSIFIERS/haarcascade_frontalface_alt.xml")
         image (org.opencv.imgcodecs.Imgcodecs/imread "obama.jpg")
         face-detections (org.opencv.core.MatOfRect.)
         _ (.detectMultiScale face-detector image face-detections)
