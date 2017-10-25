@@ -10,3 +10,8 @@ pom.xml.asc
 
 # Mac
 .DS_Store
+
+# Emacs
+*~
+\#*
+.#*
