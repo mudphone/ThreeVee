@@ -5,14 +5,28 @@
 (def INPUT-DIR  "INPUT")
 (def OUTPUT-DIR "OUTPUT")
 
-(defn input-files []
-  (map #(.toString %)
-       (file-seq
-        (clojure.java.io/file INPUT-DIR))))
+(defn input-files [dir-name]
+  (file-seq
+   (clojure.java.io/file dir-name)))
 
-(defn input-pics [file-names]
-  (filter #(re-find (re-pattern ".*\\.(gif|jpg|jpeg|tiff|png)$") %)
-          file-names))
+(def map-file-name-xr
+  (map (fn [file]
+         (.getName file))))
+
+(defn input-file-names []
+  (into [] map-file-name-xr (input-files INPUT-DIR)))
+
+(def filter-pic-name-xr
+  (filter (fn [file-name]
+            (re-find
+             (re-pattern ".*\\.(gif|jpg|jpeg|tiff|png)$")
+             file-name))))
+
+(defn input-pic-names []
+  (let [xr (comp
+            map-file-name-xr
+            filter-pic-name-xr)]
+    (into [] xr (input-files INPUT-DIR))))
 
 (defn detect-face []
   (let [face-detector (org.opencv.objdetect.CascadeClassifier. "CASCADE_CLASSIFIERS/haarcascade_frontalface_alt.xml")
@@ -54,7 +68,7 @@
       ; Draw the circle.
       (q/ellipse x y 100 100))))
 
-(q/defsketch threevee
+#_(q/defsketch threevee
   :title "You spin my circle right round"
   :size [500 500]
   ; setup function called only once, during sketch initialization.
