@@ -2,6 +2,18 @@
   (:require [quil.core :as q]
             [quil.middleware :as m]))
 
+(def INPUT-DIR  "INPUT")
+(def OUTPUT-DIR "OUTPUT")
+
+(defn input-files []
+  (map #(.toString %)
+       (file-seq
+        (clojure.java.io/file INPUT-DIR))))
+
+(defn input-pics [file-names]
+  (filter #(re-find (re-pattern ".*\\.(gif|jpg|jpeg|tiff|png)$") %)
+          file-names))
+
 (defn detect-face []
   (let [face-detector (org.opencv.objdetect.CascadeClassifier. "CASCADE_CLASSIFIERS/haarcascade_frontalface_alt.xml")
         image (org.opencv.imgcodecs.Imgcodecs/imread "obama.jpg")
