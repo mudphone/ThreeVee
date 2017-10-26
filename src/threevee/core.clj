@@ -1,43 +1,33 @@
 (ns threevee.core
   (:require [quil.core :as q]
-            [quil.middleware :as m]))
+            [quil.middleware :as m]
+            [threevee.input.core :as input]))
 
-(def INPUT-DIR  "INPUT")
-(def OUTPUT-DIR "OUTPUT")
+(defn draw-face-rect [img-rect image]
+  (let [a (org.opencv.core.Point. (.-x img-rect) (.-y img-rect))
+        b (org.opencv.core.Point. (+ (.-x img-rect) (.-width img-rect))
+                                  (+ (.-y img-rect) (.-height img-rect)))]
+    (org.opencv.imgproc.Imgproc/rectangle image a b (org.opencv.core.Scalar. 0 255 0))))
 
-(defn input-files [dir-name]
-  (file-seq
-   (clojure.java.io/file dir-name)))
-
-(def map-file-name-xr
-  (map (fn [file]
-         (.getName file))))
-
-(defn input-file-names []
-  (into [] map-file-name-xr (input-files INPUT-DIR)))
-
-(def filter-pic-name-xr
-  (filter (fn [file-name]
-            (re-find
-             (re-pattern ".*\\.(gif|jpg|jpeg|tiff|png)$")
-             file-name))))
-
-(defn input-pic-names []
-  (let [xr (comp
-            map-file-name-xr
-            filter-pic-name-xr)]
-    (into [] xr (input-files INPUT-DIR))))
-
-(defn detect-face []
-  (let [face-detector (org.opencv.objdetect.CascadeClassifier. "CASCADE_CLASSIFIERS/haarcascade_frontalface_alt.xml")
-        image (org.opencv.imgcodecs.Imgcodecs/imread "obama.jpg")
+(defn detect-face [[pic-name full-path] face-detector]
+  (println "Detecting faces... " pic-name)
+  (let [image (org.opencv.imgcodecs.Imgcodecs/imread full-path)
         face-detections (org.opencv.core.MatOfRect.)
         _ (.detectMultiScale face-detector image face-detections)
-        img-rect (first (.toArray face-detections))
-        a (org.opencv.core.Point. (.-x img-rect) (.-y img-rect))
-        b (org.opencv.core.Point. (+ (.-x img-rect) (.-width img-rect)) (+ (.-y img-rect) (.-height img-rect)))]
-    (.detectMultiScale face-detector image face-detections) (org.opencv.imgproc.Imgproc/rectangle image a b (org.opencv.core.Scalar. 0 255 0))
-    (org.opencv.imgcodecs.Imgcodecs/imwrite "output.png" image)))
+        img-rects (vec (.toArray face-detections))
+        face-count (count img-rects)
+        faces-found? (< 0 face-count)]
+    (when faces-found?
+      (let [output-name (input/output-pic-name pic-name face-count)]
+        (println "... output name: " output-name)
+        (doseq [img-rect img-rects]
+          (draw-face-rect img-rect image))
+        (org.opencv.imgcodecs.Imgcodecs/imwrite output-name image)))))
+
+(defn detect-faces []
+  (let [face-detector (org.opencv.objdetect.CascadeClassifier. "CASCADE_CLASSIFIERS/haarcascade_frontalface_alt.xml")]
+    (doseq [name-and-path (input/input-pic-names)]
+      (detect-face name-and-path face-detector))))
 
 (defn setup []
   ; Set frame rate to 30 frames per second.
