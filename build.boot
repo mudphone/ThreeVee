@@ -13,9 +13,8 @@
 (clojure.lang.RT/loadLibrary org.opencv.core.Core/NATIVE_LIBRARY_NAME)
 (require '[threevee.face.core :refer [extract-faces]])
 
-(deftask faces
+(deftask extract-faces
   "Extract faces"
   []
   (comp (extract-faces)
-        (target)
-        ))
+        (target)))
