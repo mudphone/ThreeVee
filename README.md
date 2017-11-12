@@ -85,8 +85,10 @@ lein localrepo install opencv-native-330.jar opencv/opencv-native 3.3.0
 Leiningen has an `injections` feature (in `project.clj`) which loads the native OpenCV libraries. This doesn't work in Boot, because the `java.library.path` is not the same. Set this up manually from the command line (doesn't work in the `boot.properties` file).
 
 ```` fish
-env BOOT_JVM_OPTIONS="$BOOT_JVM_OPTIONS -Djava.library.path=/Users/koba/work/PDC/COMPUTER_VISION/clj-opencv3/native/macosx/x86_64" boot faces
+env BOOT_JVM_OPTIONS="$BOOT_JVM_OPTIONS -Djava.library.path=/path/to/native/macosx/x86_64" boot faces
 ````
+
+For `/path/to/native`, see location of exploded `opencv-native-xxx.jar` above.
 
 ## License
 
