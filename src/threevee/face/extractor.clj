@@ -14,16 +14,23 @@
          "_" rect-tag
          "_" name)))
 
+(defn extract-face-from-image [outdir-path img-idx input-img-name face-img idx-face-rects]
+  (doseq [[rect-idx rect] idx-face-rects]
+    (let [result-path (output-path outdir-path
+                                   (inc img-idx)
+                                   (inc rect-idx)
+                                   input-img-name)
+          resized (img/resize-by-rect face-img rect)]
+      (println "width: " (.-width rect))
+      (println "result-path: " result-path)
+      (println "make-parents: " (io/make-parents result-path))
+      (println "file written: " (img/save-to-path resized result-path)))))
+
 (defn extract-faces [input-files outdir-path detector-config]
   (let [idx-input-files (detect/indexed-input-files input-files detector-config)]
-    (doseq [[img-idx input-img-name face-img idx-face-rects] idx-input-files]
-      (doseq [[rect-idx rect] idx-face-rects]
-        (let [result-path (output-path outdir-path
-                                       (inc img-idx)
-                                       (inc rect-idx)
-                                       input-img-name)
-              resized (img/resize-by-rect face-img rect)]
-          (println "width: " (.-width rect))
-          (println "result-path: " result-path)
-          (println "make-parents: " (io/make-parents result-path))
-          (println "file written: " (img/save-to-path resized result-path)))))))
+    (count
+     (pmap (fn [[img-idx input-img-name face-img idx-face-rects]]
+             (extract-face-from-image
+              outdir-path
+              img-idx input-img-name face-img idx-face-rects))
+           idx-input-files))))
