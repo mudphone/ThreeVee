@@ -66,20 +66,6 @@
                        max-feature-size)
     (vec (.toArray face-detections))))
 
-#_(defn extract-faces [input-files outdir-path detector-config]
-  (let [idx-input-files (indexed-input-files input-files detector-config)]
-    (doseq [[img-idx input-img-name face-img idx-face-rects] idx-input-files]
-      (doseq [[rect-idx rect] idx-face-rects]
-        (let [result-path (output-path outdir-path
-                                       (inc img-idx)
-                                       (inc rect-idx)
-                                       input-img-name)
-              resized (img/resize-by-rect face-img rect)]
-          (println "width: " (.-width rect))
-          (println "result-path: " result-path)
-          (println "make-parents: " (io/make-parents result-path))
-          (println "file written: " (img/save-to-path resized result-path)))))))
-
 (defn indexed-face-rects [face-img detector-config]
   (map-indexed
    (fn [i rect] [i rect])
@@ -103,10 +89,8 @@
          "_" rect-tag
          "_" name)))
 
-(defn detect-and-draw-faces [input-files outdir-path detector-config]
-  (let [idx-input-files (indexed-input-files input-files detector-config)]
-    (doseq [[img-idx input-img-name face-img idx-face-rects] idx-input-files]
-      (let [num-rects (count idx-face-rects)
+(defn mark-faces-in-image [outdir-path img-idx input-img-name face-img idx-face-rects]
+  (let [num-rects (count idx-face-rects)
             face-found? (< 0 num-rects)]
         (when face-found?
           (let [result-path (output-path outdir-path
@@ -117,13 +101,13 @@
               (draw-face-rect face-rect face-img))
             (println "result-path: " result-path)
             (println "make-parents: " (io/make-parents result-path))
-            (println "file written: " (img/save-to-path face-img result-path))))))))
+            (println "file written: " (img/save-to-path face-img result-path))))))
 
-#_(defn detect-faces-in-images []
-  (let [face-detector (CascadeClassifier. "CASCADE_CLASSIFIERS/haarcascade_frontalface_alt.xml")]
-    (doseq [name-and-path (inpt/input-pic-names)]
-      (detect-and-draw-faces name-and-path face-detector))))
-
-#_(defn p-detect-faces-in-images []
-  (count
-   (pmap #(detect-and-draw-faces %) (inpt/input-pic-names))))
+(defn detect-and-draw-faces [input-files outdir-path detector-config]
+  (let [idx-input-files (indexed-input-files input-files detector-config)]
+    (count
+     (pmap (fn [[img-idx input-img-name face-img idx-face-rects]]
+             (mark-faces-in-image
+              outdir-path
+              img-idx input-img-name face-img idx-face-rects))
+           idx-input-files))))
