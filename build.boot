@@ -11,10 +11,16 @@
 ;; $ env BOOT_JVM_OPTIONS="$BOOT_JVM_OPTIONS -Djava.library.path=/Users/koba/work/PDC/COMPUTER_VISION/clj-opencv3/native/macosx/x86_64" boot repl
 ;;
 (clojure.lang.RT/loadLibrary org.opencv.core.Core/NATIVE_LIBRARY_NAME)
-(require '[threevee.face.core :refer [extract-faces]])
+(require '[threevee.face.core :as face])
 
 (deftask extract-faces
   "Extract faces"
   []
-  (comp (extract-faces)
+  (comp (face/extract-faces)
+        (target)))
+
+(deftask mark-faces
+  "Draw a bounding rectangle around detected faces"
+  []
+  (comp (face/mark-faces)
         (target)))

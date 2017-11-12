@@ -2,10 +2,6 @@
   (:require
    [boot.core :as c]))
 
-(def INPUT-DIR  "INPUT")
-(def OUTPUT-DIR "OUTPUT")
-
-
 ;; Operating on Java filesa
 
 (defn file->name [jfile]
@@ -27,36 +23,52 @@
       (println "input file:" name))))
 
 
+;; Face Extraction
+(def INPUT-ROOT-DIR "FACES/INPUT/")
+#_(def INPUT-GUEST-DIR (str INPUT-ROOT-DIR "GUESTS/"))
+(def INPUT-ART-DIR (str INPUT-ROOT-DIR "ART/"))
+
+(def OUTPUT-ROOT-DIR "FACES/OUTPUT/")
+(def OUTPUT-ART-DIR (str OUTPUT-ROOT-DIR "ART"))
+(def OUTPUT-FACE-EXTRACTIONS-DIR (str OUTPUT-ART-DIR "/EXTRACTIONS"))
+(def OUTPUT-FACE-DETECTIONS-DIR (str OUTPUT-ART-DIR "/DETECTIONS"))
+
+(def RE-ART (re-pattern
+             (str INPUT-ART-DIR ".*\\.(gif|jpg|jpeg|tiff|png)$")))
+
+(defn face-input-files [fileset]
+  (input-files-by-re fileset [RE-ART]))
+
+
 ;; Older fns using direct filesystem access.
+;; (defn input-files [dir-name]
+;;   (file-seq
+;;    (clojure.java.io/file dir-name)))
 
-(defn input-files [dir-name]
-  (file-seq
-   (clojure.java.io/file dir-name)))
+;; (def map-file-name-xr
+;;   (map file->name))
 
-(def map-file-name-xr
-  (map file->name))
+;; (defn input-file-names []
+;;   (into [] map-file-name-xr (input-files INPUT-DIR)))
 
-(defn input-file-names []
-  (into [] map-file-name-xr (input-files INPUT-DIR)))
+;; (def filter-pic-name-xr
+;;   (filter (fn [[file-name _]]
+;;             (re-find
+;;              (re-pattern ".*\\.(gif|jpg|jpeg|tiff|png)$")
+;;              file-name))))
 
-(def filter-pic-name-xr
-  (filter (fn [[file-name _]]
-            (re-find
-             (re-pattern ".*\\.(gif|jpg|jpeg|tiff|png)$")
-             file-name))))
+;; (defn input-pic-names []
+;;   (let [xr (comp
+;;             map-file-name-xr
+;;             filter-pic-name-xr)]
+;;     (into [] xr (input-files INPUT-DIR))))
 
-(defn input-pic-names []
-  (let [xr (comp
-            map-file-name-xr
-            filter-pic-name-xr)]
-    (into [] xr (input-files INPUT-DIR))))
-
-(defn output-pic-name
-  ([input-pic-name]
-   (output-pic-name input-pic-name nil))
-  ([input-pic-name extra]
-   (let [tag (if-not (nil? extra)
-               (str extra "_")
-               "")]
-     (str OUTPUT-DIR "/output_" tag input-pic-name))))
+;; (defn output-pic-name
+;;   ([input-pic-name]
+;;    (output-pic-name input-pic-name nil))
+;;   ([input-pic-name extra]
+;;    (let [tag (if-not (nil? extra)
+;;                (str extra "_")
+;;                "")]
+;;      (str OUTPUT-DIR "/output_" tag input-pic-name))))
 
