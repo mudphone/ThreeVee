@@ -14,7 +14,7 @@
   (let [a (Point. (.-x img-rect) (.-y img-rect))
         b (Point. (+ (.-x img-rect) (.-width img-rect))
                   (+ (.-y img-rect) (.-height img-rect)))]
-    (Imgproc/rectangle image a b (Scalar. 0 255 0))))
+    (Imgproc/rectangle image a b (Scalar. 0 255 0) 5)))
 
 (def HAAR-CASCADE-CLASSIFIER
   (re-pattern
@@ -38,9 +38,9 @@
             min-feature-size
             max-feature-size]
      :or {search-scale-factor 1.1
-          min-neighbors 4
+          min-neighbors 6
           detection-flags 0
-          min-feature-size (Size. 50 50)
+          min-feature-size (Size. 100 100)
           max-feature-size (Size.)}}]
    {:detector detector
     :search-scale-factor search-scale-factor
