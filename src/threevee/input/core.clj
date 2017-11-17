@@ -25,18 +25,26 @@
 
 ;; Face Extraction
 (def INPUT-ROOT-DIR "FACES/INPUT/")
-#_(def INPUT-GUEST-DIR (str INPUT-ROOT-DIR "GUESTS/"))
+(def INPUT-GUEST-DIR (str INPUT-ROOT-DIR "GUESTS/"))
 (def INPUT-ART-DIR (str INPUT-ROOT-DIR "ART/"))
 
 (def OUTPUT-ROOT-DIR "FACES/OUTPUT/")
-(def OUTPUT-ART-DIR (str OUTPUT-ROOT-DIR "ART"))
-(def OUTPUT-FACE-EXTRACTIONS-DIR (str OUTPUT-ART-DIR "/EXTRACTIONS"))
-(def OUTPUT-FACE-DETECTIONS-DIR (str OUTPUT-ART-DIR "/DETECTIONS"))
+(def OUTPUT-GUEST-DIR (str OUTPUT-ROOT-DIR "GUESTS"))
+(def OUTPUT-GUEST-FACE-EXTRACTIONS-DIR (str OUTPUT-GUEST-DIR "/EXTRACTIONS"))
 
+(def OUTPUT-ART-DIR (str OUTPUT-ROOT-DIR "ART"))
+(def OUTPUT-ART-FACE-EXTRACTIONS-DIR (str OUTPUT-ART-DIR "/EXTRACTIONS"))
+(def OUTPUT-ART-FACE-DETECTIONS-DIR (str OUTPUT-ART-DIR "/DETECTIONS"))
+
+(def RE-GUEST (re-pattern
+               (str INPUT-GUEST-DIR ".*\\.(gif|jpg|jpeg|tiff|png)$")))
 (def RE-ART (re-pattern
              (str INPUT-ART-DIR ".*\\.(gif|jpg|jpeg|tiff|png)$")))
 
-(defn face-input-files [fileset]
+(defn guest-input-files [fileset]
+  (input-files-by-re fileset [RE-GUEST]))
+
+(defn art-input-files [fileset]
   (input-files-by-re fileset [RE-ART]))
 
 

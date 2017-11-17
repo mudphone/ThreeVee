@@ -38,9 +38,9 @@
             min-feature-size
             max-feature-size]
      :or {search-scale-factor 1.1
-          min-neighbors 6
+          min-neighbors 7
           detection-flags 0
-          min-feature-size (Size. 100 100)
+          min-feature-size (Size. 100 100) ;(Size. 224 224)
           max-feature-size (Size.)}}]
    {:detector detector
     :search-scale-factor search-scale-factor
@@ -80,20 +80,21 @@
                 idx-face-rects (indexed-face-rects face-img detector-config)]
             [i input-img-name face-img idx-face-rects])))))
 
-(defn- output-path [root img-idx num-rects name]
+(defn- output-path [root out-dir img-idx num-rects name]
   (let [file-tag (format "%04d" img-idx)
         rect-tag (format "%02d" num-rects)]
     (str root
-         "/" inpt/OUTPUT-FACE-DETECTIONS-DIR
+         "/" out-dir
          "/" file-tag
          "_" rect-tag
-         "_" name)))
+         "__" name)))
 
-(defn mark-faces-in-image [outdir-path img-idx input-img-name face-img idx-face-rects]
+(defn mark-faces-in-image [tmp-path out-dir img-idx input-img-name face-img idx-face-rects]
   (let [num-rects (count idx-face-rects)
             face-found? (< 0 num-rects)]
         (when face-found?
-          (let [result-path (output-path outdir-path
+          (let [result-path (output-path tmp-path
+                                         out-dir
                                          (inc img-idx)
                                          num-rects
                                          input-img-name)]
@@ -103,11 +104,12 @@
             (println "make-parents: " (io/make-parents result-path))
             (println "file written: " (img/save-to-path face-img result-path))))))
 
-(defn detect-and-draw-faces [input-files outdir-path detector-config]
+(defn detect-and-draw-faces [input-files tmp-path out-dir detector-config]
   (let [idx-input-files (indexed-input-files input-files detector-config)]
     (count
      (pmap (fn [[img-idx input-img-name face-img idx-face-rects]]
              (mark-faces-in-image
-              outdir-path
+              tmp-path
+              out-dir
               img-idx input-img-name face-img idx-face-rects))
            idx-input-files))))

@@ -13,14 +13,20 @@
 (clojure.lang.RT/loadLibrary org.opencv.core.Core/NATIVE_LIBRARY_NAME)
 (require '[threevee.face.core :as face])
 
-(deftask extract-faces
-  "Extract faces"
+(deftask extract-art-faces
+  "Extract faces from artwork photos"
   []
-  (comp (face/extract-faces)
+  (comp (face/extract-art-faces)
+        (target)))
+
+(deftask extract-guest-faces
+  "Extract faces from guest photos"
+  []
+  (comp (face/extract-guest-faces)
         (target)))
 
 (deftask mark-faces
   "Draw a bounding rectangle around detected faces"
   []
-  (comp (face/mark-faces)
+  (comp (face/mark-art-faces)
         (target)))
