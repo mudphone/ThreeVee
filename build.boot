@@ -2,7 +2,18 @@
   :asset-paths #{"assets"}
   :source-paths #{"src"}
   :dependencies '[[opencv/opencv-native "3.3.0"]
-                  [opencv/opencv "3.3.0"]])
+                  [opencv/opencv "3.3.0"]
+                  [org.clojure/math.numeric-tower "0.0.4"
+                   :exclusions [org.clojure/clojure]]
+                  [org.clojure/tools.namespace "0.2.11"
+                   :exclusions [org.clojure/clojure]]])
+
+;; Reloading CLJ files from the Boot REPL:
+;; https://github.com/boot-clj/boot/wiki/Repl-reloading
+;; Refresh updated clj files with:
+;; (require '[clojure.tools.namespace.repl :as repl])
+;; (apply repl/set-refresh-dirs (get-env :directories)))
+;; (repl/refresh)
 
 ;; Unfortunately, launch via Boot requires:
 ;; $ env BOOT_JVM_OPTIONS="$BOOT_JVM_OPTIONS -Djava.library.path=/path/to/native/macosx/x86_64" boot repl
