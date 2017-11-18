@@ -31,10 +31,11 @@
       (let [scaled-height (math/round (/ (.rows image) scale))
             size (Size. SHRINK-WIDTH scaled-height)]
         (Imgproc/resize image small-image size)
-        small-image)
-      image)))
+        {:image small-image :scale scale})
+      {:image image :scale 1.0})))
 
-(defn equalize-histogram [image]
+(defn equalize-histogram
+  [image]
   (let [equalized (Mat.)]
     (Imgproc/equalizeHist image equalized)
     equalized))
@@ -42,5 +43,4 @@
 (defn detection-preprocess [image]
   (-> image
       grayscale
-      shrink
       equalize-histogram))

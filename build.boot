@@ -12,7 +12,7 @@
 ;; https://github.com/boot-clj/boot/wiki/Repl-reloading
 ;; Refresh updated clj files with:
 ;; (require '[clojure.tools.namespace.repl :as repl])
-;; (apply repl/set-refresh-dirs (get-env :directories)))
+;; (apply repl/set-refresh-dirs (get-env :directories))
 ;; (repl/refresh)
 
 ;; Unfortunately, launch via Boot requires:
@@ -36,8 +36,14 @@
   (comp (face/extract-guest-faces)
         (target)))
 
-(deftask mark-faces
+(deftask mark-art-faces
   "Draw a bounding rectangle around detected faces"
   []
   (comp (face/mark-art-faces)
         (target)))
+
+(deftask all
+  "Do all"
+  []
+  (comp (mark-art-faces)
+        (extract-art-faces)))
