@@ -13,4 +13,5 @@
   (Mat. image rect))
 
 (defn save-to-path [image path]
+  (io/make-parents path)
   (Imgcodecs/imwrite path image))

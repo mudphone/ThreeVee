@@ -20,19 +20,27 @@
         gray)
       image)))
 
-(def SHRINK-WIDTH 320)
-(def SHRINK-WIDTH-F (float SHRINK-WIDTH))
+(def STD-WIDTH 320)
+(def STD-WIDTH-F (float STD-WIDTH))
+
+(defn resize
+  ([image]
+   (resize STD-WIDTH image))
+  ([w image]
+   (let [new-image (Mat.)
+         cols (.cols image)
+         scale (/ cols (float w))]
+     (if (= cols w)
+       {:image image :scale 1.0}
+       (let [scaled-height (math/round (/ (.rows image) scale))
+             size (Size. w scaled-height)]
+         (Imgproc/resize image new-image size)
+         {:image new-image :scale scale})))))
 
 (defn shrink [image]
-  (let [small-image (Mat.)
-        cols (.cols image)
-        scale (/ cols SHRINK-WIDTH-F)]
-    (if (> cols SHRINK-WIDTH)
-      (let [scaled-height (math/round (/ (.rows image) scale))
-            size (Size. SHRINK-WIDTH scaled-height)]
-        (Imgproc/resize image small-image size)
-        {:image small-image :scale scale})
-      {:image image :scale 1.0})))
+  (if (> (.cols image) STD-WIDTH)
+    (resize STD-WIDTH image)
+    {:image image :scale 1.0}))
 
 (defn equalize-histogram
   [image]

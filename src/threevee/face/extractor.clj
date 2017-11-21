@@ -1,10 +1,8 @@
 (ns threevee.face.extractor
   (:require
    [boot.core :as c]
-   [clojure.java.io :as io]
    [threevee.face.detector :as detect]
-   [threevee.image.core :as img]
-   [threevee.input.core :as inpt]))
+   [threevee.image.core :as img]))
 
 (defn- output-path [root out-path img-idx rect-idx name]
   (let [file-tag (format "%04d" img-idx)
@@ -24,7 +22,6 @@
         resized (img/resize-by-rect face-img rect)]
     (println "width: " (.-width rect))
     (println "result-path: " result-path)
-    (println "make-parents: " (io/make-parents result-path))
     (println "file written: " (img/save-to-path resized result-path))
     {:face-image resized
      :path result-path}))
