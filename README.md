@@ -80,6 +80,43 @@ lein localrepo install opencv-330.jar opencv/opencv 3.3.0
 lein localrepo install opencv-native-330.jar opencv/opencv-native 3.3.0
 ````
 
+## Get Haar Cascade Classifier XML Files
+From [https://github.com/opencv/opencv](https://github.com/opencv/opencv/tree/master/data)
+Place them in the following locations (if you need them):
+src/CASCADE_CLASSIFIERS/OpenCV/haarcascades/haarcascade_eye.xml
+src/CASCADE_CLASSIFIERS/OpenCV/haarcascades/haarcascade_eye_tree_eyeglasses.xml
+src/CASCADE_CLASSIFIERS/OpenCV/haarcascades/haarcascade_frontalcatface.xml
+src/CASCADE_CLASSIFIERS/OpenCV/haarcascades/haarcascade_frontalcatface_extended.xml
+src/CASCADE_CLASSIFIERS/OpenCV/haarcascades/haarcascade_frontalface_alt.xml
+src/CASCADE_CLASSIFIERS/OpenCV/haarcascades/haarcascade_frontalface_alt2.xml
+src/CASCADE_CLASSIFIERS/OpenCV/haarcascades/haarcascade_frontalface_alt_tree.xml
+src/CASCADE_CLASSIFIERS/OpenCV/haarcascades/haarcascade_frontalface_default.xml
+src/CASCADE_CLASSIFIERS/OpenCV/haarcascades/haarcascade_fullbody.xml
+src/CASCADE_CLASSIFIERS/OpenCV/haarcascades/haarcascade_lefteye_2splits.xml
+src/CASCADE_CLASSIFIERS/OpenCV/haarcascades/haarcascade_licence_plate_rus_16stages.xml
+src/CASCADE_CLASSIFIERS/OpenCV/haarcascades/haarcascade_lowerbody.xml
+src/CASCADE_CLASSIFIERS/OpenCV/haarcascades/haarcascade_profileface.xml
+src/CASCADE_CLASSIFIERS/OpenCV/haarcascades/haarcascade_righteye_2splits.xml
+src/CASCADE_CLASSIFIERS/OpenCV/haarcascades/haarcascade_russian_plate_number.xml
+src/CASCADE_CLASSIFIERS/OpenCV/haarcascades/haarcascade_smile.xml
+src/CASCADE_CLASSIFIERS/OpenCV/haarcascades/haarcascade_upperbody.xml
+
+### Contrib Classifiers
+From [https://github.com/opencv/opencv_contrib](https://github.com/opencv/opencv_contrib/tree/master/modules/face/data/cascades)
+Place them in the following locations (if you need them):
+src/CASCADE_CLASSIFIERS/contrib/haarcascades/haarcascade_mcs_eyepair_big.xml
+src/CASCADE_CLASSIFIERS/contrib/haarcascades/haarcascade_mcs_eyepair_small.xml
+src/CASCADE_CLASSIFIERS/contrib/haarcascades/haarcascade_mcs_leftear.xml
+src/CASCADE_CLASSIFIERS/contrib/haarcascades/haarcascade_mcs_lefteye.xml
+src/CASCADE_CLASSIFIERS/contrib/haarcascades/haarcascade_mcs_lefteye_alt.xml
+src/CASCADE_CLASSIFIERS/contrib/haarcascades/haarcascade_mcs_mouth.xml
+src/CASCADE_CLASSIFIERS/contrib/haarcascades/haarcascade_mcs_nose.xml
+src/CASCADE_CLASSIFIERS/contrib/haarcascades/haarcascade_mcs_rightear.xml
+src/CASCADE_CLASSIFIERS/contrib/haarcascades/haarcascade_mcs_righteye.xml
+src/CASCADE_CLASSIFIERS/contrib/haarcascades/haarcascade_mcs_righteye_alt.xml
+src/CASCADE_CLASSIFIERS/contrib/haarcascades/haarcascade_mcs_upperbody.xml
+
+
 ## Run with Boot
 
 Leiningen has an `injections` feature (in `project.clj`) which loads the native OpenCV libraries. This doesn't work in Boot, because the `java.library.path` is not the same. Set this up manually from the command line (doesn't work in the `boot.properties` file).
